@@ -1,26 +1,300 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@custom-variant dark (&:is(.dark *));
 
 @theme inline {
+  /* — Fonts — */
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-geist-mono);
+  --font-heading: var(--font-sans);
+
+  /* — Border radius scale — */
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+
+  /* — Core shadcn tokens — */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  /* — Sidebar tokens — */
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  /* — Chart tokens — */
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+
+  /* — Semantic tokens (new — not in shadcn default) — */
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-info: var(--info);
+  --color-info-foreground: var(--info-foreground);
+
+  /* — Brand scale tokens — */
+  --color-brand: var(--brand);
+  --color-brand-foreground: var(--brand-foreground);
+  --color-brand-subtle: var(--brand-subtle);
+  --color-brand-muted: var(--brand-muted);
+
+  /* — Post status tokens — */
+  --color-status-draft: var(--status-draft);
+  --color-status-review: var(--status-review);
+  --color-status-approved: var(--status-approved);
+  --color-status-scheduled: var(--status-scheduled);
+  --color-status-published: var(--status-published);
+
+  /* — Platform color tokens — */
+  --color-platform-instagram: var(--platform-instagram);
+  --color-platform-linkedin: var(--platform-linkedin);
+  --color-platform-twitter: var(--platform-twitter);
+  --color-platform-facebook: var(--platform-facebook);
+  --color-platform-tiktok: var(--platform-tiktok);
+  --color-platform-youtube: var(--platform-youtube);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* =================================================
+   LIGHT MODE
+   ================================================= */
+:root {
+  --radius: 0.625rem;
+
+  /* — Base surfaces — */
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+
+  /* — Brand: Electric Violet —
+     violet-600 (#7c3aed) as primary.
+     Replaces the default near-black primary.
+     Foreground stays white for WCAG AA contrast. */
+  --primary: oklch(0.597 0.261 293.783);
+  --primary-foreground: oklch(0.985 0 0);
+
+  /* — Brand scale —
+     Used for badge backgrounds, hover tints,
+     and any place that needs a violet wash
+     without the full primary weight. */
+  --brand: oklch(0.597 0.261 293.783); /* violet-600 */
+  --brand-foreground: oklch(0.985 0 0);
+  --brand-subtle: oklch(0.969 0.016 293.756); /* violet-50  — lightest tint */
+  --brand-muted: oklch(0.943 0.033 294.271); /* violet-100 — hover bg */
+
+  /* — Ring: matches brand for focus rings — */
+  --ring: oklch(0.597 0.261 293.783);
+
+  /* — UI chrome — */
+  --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.556 0 0);
+  --accent: oklch(0.97 0 0);
+  --accent-foreground: oklch(0.205 0 0);
+  --border: oklch(0.922 0 0);
+  --input: oklch(0.922 0 0);
+
+  /* — Destructive (delete, errors, failed status) —
+     red-600. Unchanged from shadcn default —
+     does not conflict with violet brand. */
+  --destructive: oklch(0.577 0.245 27.325);
+
+  /* — Success: emerald-500 (#10b981) —
+     Used for: Approved status, success toasts. */
+  --success: oklch(0.696 0.17 162.481);
+  --success-foreground: oklch(0.985 0 0);
+
+  /* — Warning: amber-500 (#f59e0b) —
+     Used for: In Review status, warning toasts.
+     Dark foreground because amber is a light color. */
+  --warning: oklch(0.769 0.188 70.08);
+  --warning-foreground: oklch(0.145 0 0);
+
+  /* — Info: blue-500 (#3b82f6) —
+     Used for: Scheduled status, info toasts. */
+  --info: oklch(0.623 0.214 259.815);
+  --info-foreground: oklch(0.985 0 0);
+
+  /* — Post status semantic aliases —
+     Use these in Badge, KanbanColumn header,
+     and CalendarEvent components instead of
+     hardcoding colors per component. */
+  --status-draft: oklch(0.556 0 0); /* neutral gray     */
+  --status-review: oklch(0.769 0.188 70.08); /* amber  — warning  */
+  --status-approved: oklch(0.696 0.17 162.481); /* emerald — success */
+  --status-scheduled: oklch(0.623 0.214 259.815); /* blue   — info     */
+  --status-published: oklch(0.597 0.261 293.783); /* violet — brand    */
+
+  /* — Platform colors —
+     These are fixed brand identities, not themed.
+     Same in light and dark (except TikTok). */
+  --platform-instagram: oklch(0.568 0.215 5.272); /* #E1306C */
+  --platform-linkedin: oklch(0.476 0.162 254.588); /* #0A66C2 */
+  --platform-twitter: oklch(0.693 0.139 232.661); /* #1DA1F2 */
+  --platform-facebook: oklch(0.468 0.167 259.771); /* #1877F2 */
+  --platform-tiktok: oklch(0.145 0 0); /* #000000 — black  */
+  --platform-youtube: oklch(0.577 0.245 27.325); /* #FF0000 — red    */
+
+  /* — Charts —
+     Ordered for maximum visual variety.
+     Maps to Recharts color arrays in Section 8.
+     All five are meaningfully distinct hues. */
+  --chart-1: oklch(0.597 0.261 293.783); /* violet  — brand      */
+  --chart-2: oklch(0.623 0.214 259.815); /* blue    — info       */
+  --chart-3: oklch(0.696 0.17 162.481); /* emerald — success    */
+  --chart-4: oklch(0.769 0.188 70.08); /* amber   — warning    */
+  --chart-5: oklch(0.637 0.237 25.331); /* red     — destructive*/
+
+  /* — Sidebar —
+     sidebar-primary is the active nav item highlight.
+     Updated to match violet brand. */
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: oklch(0.597 0.261 293.783);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.597 0.261 293.783);
+}
+
+/* =================================================
+   DARK MODE
+   ================================================= */
+.dark {
+  /* — Base surfaces — */
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.205 0 0);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.205 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+
+  /* — Brand: Electric Violet (dark) —
+     violet-400 in dark mode for better contrast
+     against dark surfaces. Foreground flips to
+     dark text since violet-400 is lighter. */
+  --primary: oklch(0.771 0.174 294.459);
+  --primary-foreground: oklch(0.145 0 0);
+
+  /* — Brand scale (dark) —
+     Subtle tints use deep violet shades so
+     badge backgrounds read properly on dark cards. */
+  --brand: oklch(0.771 0.174 294.459); /* violet-400 */
+  --brand-foreground: oklch(0.145 0 0);
+  --brand-subtle: oklch(0.283 0.119 292.492); /* violet-950 — darkest tint  */
+  --brand-muted: oklch(0.386 0.161 292.797); /* violet-900 — hover on dark */
+
+  /* — Ring: lighter violet for dark focus rings — */
+  --ring: oklch(0.771 0.174 294.459);
+
+  /* — UI chrome (dark) — */
+  --secondary: oklch(0.269 0 0);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.269 0 0);
+  --muted-foreground: oklch(0.708 0 0);
+  --accent: oklch(0.269 0 0);
+  --accent-foreground: oklch(0.985 0 0);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+
+  /* — Destructive (dark) — */
+  --destructive: oklch(0.704 0.191 22.216);
+
+  /* — Semantic (dark) —
+     Lighter shades of each semantic color
+     for better visibility on dark backgrounds. */
+  --success: oklch(0.793 0.151 162.48); /* emerald-400 */
+  --success-foreground: oklch(0.145 0 0);
+
+  --warning: oklch(0.828 0.189 84.429); /* amber-400   */
+  --warning-foreground: oklch(0.145 0 0);
+
+  --info: oklch(0.707 0.165 254.624); /* blue-400    */
+  --info-foreground: oklch(0.145 0 0);
+
+  /* — Post status (dark) —
+     Mirror the lighter semantic shades. */
+  --status-draft: oklch(0.708 0 0);
+  --status-review: oklch(0.828 0.189 84.429);
+  --status-approved: oklch(0.793 0.151 162.48);
+  --status-scheduled: oklch(0.707 0.165 254.624);
+  --status-published: oklch(0.771 0.174 294.459);
+
+  /* — Platform colors (dark) —
+     Kept identical — these are fixed brand colors.
+     TikTok flips to white since black is invisible
+     on a dark background. */
+  --platform-instagram: oklch(0.568 0.215 5.272);
+  --platform-linkedin: oklch(0.476 0.162 254.588);
+  --platform-twitter: oklch(0.693 0.139 232.661);
+  --platform-facebook: oklch(0.468 0.167 259.771);
+  --platform-tiktok: oklch(0.985 0 0); /* white in dark mode */
+  --platform-youtube: oklch(0.577 0.245 27.325);
+
+  /* — Charts (dark) —
+     Lighter variants so charts are vivid
+     against the dark card backgrounds. */
+  --chart-1: oklch(0.771 0.174 294.459); /* violet-400  */
+  --chart-2: oklch(0.707 0.165 254.624); /* blue-400    */
+  --chart-3: oklch(0.793 0.151 162.48); /* emerald-400 */
+  --chart-4: oklch(0.828 0.189 84.429); /* amber-400   */
+  --chart-5: oklch(0.704 0.191 22.216); /* red-400     */
+
+  /* — Sidebar (dark) — */
+  --sidebar: oklch(0.205 0 0);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.771 0.174 294.459);
+  --sidebar-primary-foreground: oklch(0.145 0 0);
+  --sidebar-accent: oklch(0.269 0 0);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: oklch(0.771 0.174 294.459);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
   }
-}
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  body {
+    @apply bg-background text-foreground;
+  }
+  html {
+    @apply font-sans;
+  }
 }
