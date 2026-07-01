@@ -4,6 +4,8 @@ import "./globals.css";
 import { cn } from "@/lib/utils";
 
 import { ClerkProvider } from "@clerk/nextjs";
+import { Providers } from "@/components/providers";
+import { Toaster } from "@/components/ui/sonner";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -25,7 +27,12 @@ export default function RootLayout({
         suppressHydrationWarning
         className={cn("h-full", "antialiased", "font-sans", inter.variable)}
       >
-        <body className="min-h-full flex flex-col">{children}</body>
+        <body className="min-h-full flex flex-col">
+          <Providers>
+            {children}
+            <Toaster richColors position="top-right" />
+          </Providers>
+        </body>
       </html>
     </ClerkProvider>
   );
