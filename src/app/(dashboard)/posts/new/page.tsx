@@ -1,13 +1,30 @@
-// src/app/(dashboard)/posts/new/page.tsx
+// src/app/(dashboard)/posts/new/page.tsx — updated
 import { Metadata } from "next";
 import { requireAuth } from "@/lib/auth";
 import { PostForm } from "@/components/posts/post-form";
 
 export const metadata: Metadata = { title: "Create Post" };
 
-export default async function NewPostPage() {
-  // Defense-in-depth — layout already checks but we confirm again
+interface NewPostPageProps {
+  searchParams: { status?: string };
+}
+
+const VALID_STATUSES = [
+  "DRAFT",
+  "IN_REVIEW",
+  "APPROVED",
+  "SCHEDULED",
+  "PUBLISHED",
+];
+
+export default async function NewPostPage({ searchParams }: NewPostPageProps) {
   await requireAuth();
+
+  // Pre-select the status if a valid one was passed from Kanban
+  const preselectedStatus =
+    searchParams.status && VALID_STATUSES.includes(searchParams.status)
+      ? searchParams.status
+      : "DRAFT";
 
   return (
     <div className="mx-auto max-w-3xl">
@@ -17,7 +34,7 @@ export default async function NewPostPage() {
           Write and schedule your social media content
         </p>
       </div>
-      <PostForm />
+      <PostForm defaultStatus={preselectedStatus as any} />
     </div>
   );
 }

@@ -1,3 +1,10 @@
+import type {
+  Post,
+  Media,
+  Platform,
+  PostStatus,
+} from "@/generated/prisma/client";
+
 /**
  * Represents the JSON output of TipTap's editor.getJSON().
  * Used wherever TipTap content is stored, passed, or validated.
@@ -12,3 +19,19 @@ export type TipTapContent = {
   attrs?: Record<string, unknown>;
   [key: string]: unknown;
 };
+
+/**
+ * The subset of Post fields the Kanban board needs.
+ * Using Pick keeps the type tight — the board never
+ * accesses content (JSONB) which would be wasteful to
+ * pass through React's serialization boundary.
+ */
+export type KanbanPost = Pick<
+  Post,
+  "id" | "title" | "platform" | "status" | "scheduledFor" | "createdAt"
+> & { media: Array<Pick<Media, "id" | "url">> };
+
+export interface KanbanColumn {
+  id: PostStatus;
+  label: string;
+}

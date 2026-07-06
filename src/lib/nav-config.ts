@@ -1,22 +1,21 @@
-import type { Route } from "next";
-
-import type { LucideIcon } from "lucide-react";
+// src/lib/nav-config.ts
 import {
   LayoutDashboard,
   KanbanSquare,
   CalendarDays,
   Settings,
 } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 
 export interface NavItem {
   title: string;
-  href: Route;
+  href: string;
   icon: LucideIcon;
 }
 
 export const navItems: NavItem[] = [
   { title: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
-  { title: "Posts", href: "/posts", icon: KanbanSquare },
+  { title: "Posts", href: "/posts/kanban", icon: KanbanSquare },
   { title: "Calendar", href: "/calendar", icon: CalendarDays },
   { title: "Settings", href: "/settings", icon: Settings },
 ];

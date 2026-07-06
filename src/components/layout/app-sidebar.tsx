@@ -16,6 +16,7 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import { navItems } from "@/lib/nav-config";
+import { type Route } from "next";
 
 export function AppSidebar() {
   const pathname = usePathname();
@@ -27,8 +28,8 @@ export function AppSidebar() {
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton size="lg" asChild>
-              <Link 
-                href="/dashboard" 
+              <Link
+                href="/dashboard"
                 onClick={() => {
                   if (isMobile) setOpenMobile(false);
                 }}
@@ -36,7 +37,9 @@ export function AppSidebar() {
                 <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
                   <Command className="size-4" />
                 </div>
-                <span className="truncate font-semibold text-primary">Content Planner</span>
+                <span className="truncate font-semibold text-primary">
+                  Content Planner
+                </span>
               </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
@@ -51,14 +54,14 @@ export function AppSidebar() {
                 const isActive = pathname.startsWith(item.href);
                 return (
                   <SidebarMenuItem key={item.href}>
-                    <SidebarMenuButton 
-                      asChild 
+                    <SidebarMenuButton
+                      asChild
                       isActive={isActive}
                       onClick={() => {
                         if (isMobile) setOpenMobile(false);
                       }}
                     >
-                      <Link href={item.href}>
+                      <Link href={item.href as Route}>
                         <item.icon />
                         <span>{item.title}</span>
                       </Link>
@@ -71,8 +74,7 @@ export function AppSidebar() {
         </SidebarGroup>
       </SidebarContent>
 
-      <SidebarFooter>
-      </SidebarFooter>
+      <SidebarFooter></SidebarFooter>
     </Sidebar>
   );
 }

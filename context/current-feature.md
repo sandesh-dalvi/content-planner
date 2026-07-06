@@ -1,16 +1,26 @@
-# Current Feature
+# Current Feature: Kanban Board
 
 ## Status
 
-Not Started
+In Progress
 
 ## Goals
 
-<!-- Add feature goals here -->
+- Select and document the DnD Kit package version, including why its legacy stable API is appropriate.
+- Fetch Kanban data in a Server Component and render the board through a Client Component with optimistic state.
+- Use React 19 `useOptimistic` to move cards immediately while status updates persist through a Server Action.
+- Configure `DndContext` with appropriate sensors, collision detection, and mobile pointer/touch support.
+- Build droppable status columns with clear hover feedback, including reliable empty-column drop targets.
+- Build draggable post cards with correct transform behavior and a `DragOverlay` ghost card.
+- Connect drag completion to the existing `updatePostStatus` Server Action.
+- Recover the visual board state and show user-friendly feedback when a status update fails.
 
 ## Notes
 
-<!-- Add feature notes here -->
+- The page must remain a Server Component; DnD behavior belongs in focused Client Components.
+- The board must provide instant visual feedback while preserving the server as the source of truth.
+- All five post statuses must remain valid drop targets even when their columns contain no cards.
+- Pointer-based sensors must support both desktop and mobile interaction.
 
 ## History
 

@@ -2,6 +2,7 @@ import "server-only";
 
 import { Platform, PostStatus } from "@/generated/prisma/enums";
 import { prisma } from "@/lib/prisma";
+import type { KanbanPost } from "@/types";
 
 // Type for filter parameters used across Kanban, Calendar, and List views
 export interface PostFilters {
@@ -71,4 +72,30 @@ export async function getPostStats(workspaceId: string) {
   ]);
 
   return { total, byStatus, byPlatform };
+}
+
+/**
+ * Fetches all posts for the Kanban board.
+ * Selects only the fields the board renders — excludes
+ * the content JSONB column since cards never show it.
+ */
+export async function getKanbanPosts(
+  workspaceId: string,
+): Promise<KanbanPost[]> {
+  return prisma.post.findMany({
+    where: { workspaceId },
+    select: {
+      id: true,
+      title: true,
+      platform: true,
+      status: true,
+      scheduledFor: true,
+      createdAt: true,
+      media: {
+        select: { id: true, url: true },
+        take: 1,
+      },
+    },
+    orderBy: { createdAt: "desc" },
+  });
 }
