@@ -1,4 +1,8 @@
-export default function CalendarPage() {
+import { requireAuth } from "@/lib/auth";
+
+export default async function CalendarPage() {
+  await requireAuth();
+
   return (
     <div>
       <h1 className="text-2xl font-semibold tracking-tight">Calendar</h1>
