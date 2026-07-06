@@ -141,10 +141,14 @@ export async function updatePostStatus(input: UpdateStatusInput) {
   const result = updateStatusSchema.safeParse(input);
   if (!result.success) return { success: false as const };
 
-  await prisma.post.update({
-    where: { id: result.data.postId, workspaceId: workspace.id },
-    data: { status: result.data.status },
-  });
+  try {
+    await prisma.post.update({
+      where: { id: result.data.postId, workspaceId: workspace.id },
+      data: { status: result.data.status },
+    });
+  } catch {
+    return { success: false as const };
+  }
 
   revalidatePath("/posts/kanban");
   revalidatePath("/dashboard");

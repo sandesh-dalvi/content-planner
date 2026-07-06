@@ -160,5 +160,14 @@ describe("post actions", () => {
       expect(result).toEqual({ success: false });
       expect(mocks.update).not.toHaveBeenCalled();
     });
+
+    it("returns failure when the status update cannot be persisted", async () => {
+      mocks.update.mockRejectedValue(new Error("Database unavailable"));
+
+      await expect(
+        updatePostStatus({ postId: "post-1", status: "APPROVED" }),
+      ).resolves.toEqual({ success: false });
+      expect(mocks.revalidatePath).not.toHaveBeenCalled();
+    });
   });
 });

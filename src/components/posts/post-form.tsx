@@ -53,11 +53,11 @@ const DEFAULT_CONTENT: TipTapContent = {
 };
 
 interface PostFormProps {
-  // When provided, form operates in edit mode
   post?: Post & { media: Media[] };
+  defaultStatus?: CreatePostInput["status"]; // ← add this
 }
 
-export function PostForm({ post }: PostFormProps) {
+export function PostForm({ post, defaultStatus = "DRAFT" }: PostFormProps) {
   const router = useRouter();
   const isEditing = !!post;
   const { uploads, isUploading, uploadFiles, removeUpload } = useMediaUpload();
@@ -71,15 +71,13 @@ export function PostForm({ post }: PostFormProps) {
     resolver: standardSchemaResolver(createPostSchema),
     defaultValues: {
       title: post?.title ?? "",
-      // Cast through TipTapContent — not through `object` which TypeScript widens to `{}`
       content: (post?.content as TipTapContent | undefined) ?? DEFAULT_CONTENT,
       platform: (post?.platform as CreatePostInput["platform"]) ?? "INSTAGRAM",
-      status: (post?.status as CreatePostInput["status"]) ?? "DRAFT",
+      status: (post?.status as CreatePostInput["status"]) ?? defaultStatus, // ← use prop
       scheduledFor: defaultScheduledFor || undefined,
     },
     mode: "onBlur",
   });
-
   const {
     register,
     handleSubmit,
