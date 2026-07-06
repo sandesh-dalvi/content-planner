@@ -1,4 +1,8 @@
-export default function KanbanPage() {
+import { requireAuth } from "@/lib/auth";
+
+export default async function KanbanPage() {
+  await requireAuth();
+
   return (
     <div>
       <h1 className="text-2xl font-semibold tracking-tight">Posts</h1>

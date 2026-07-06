@@ -3,6 +3,11 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
+  typedRoutes: true,
+
+  turbopack: {
+    root: process.cwd(),
+  },
 
   // Required for Prisma 7 + pg driver
   // Prevents Next.js from bundling these server-only packages
@@ -28,9 +33,6 @@ const nextConfig: NextConfig = {
         : false,
   },
 
-  experimental: {
-    typedRoutes: true,
-  },
 };
 
 export default nextConfig;

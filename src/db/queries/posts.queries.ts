@@ -24,24 +24,10 @@ export async function getPostsByWorkspace(
       workspaceId,
       ...(filters?.platform && { platform: filters.platform }),
       ...(filters?.status && { status: filters.status }),
-      ...(filters?.from || filters?.to
-        ? {
-            scheduledFor: {
-              ...(filters.from && { gte: filters.from }),
-              ...(filters.to && { lte: filters.to }),
-            },
-          }
-        : {}),
     },
     include: {
       media: {
-        select: {
-          id: true,
-          url: true,
-          mimeType: true,
-          width: true,
-          height: true,
-        },
+        select: { id: true, url: true, mimeType: true, filename: true },
       },
     },
     orderBy: { createdAt: "desc" },
