@@ -99,3 +99,36 @@ export async function getKanbanPosts(
     orderBy: { createdAt: "desc" },
   });
 }
+
+/**
+ * Fetches posts for the calendar view.
+ * Only returns posts with a scheduled date — unscheduled posts
+ * have no position on a calendar and are excluded.
+ * Ordered ascending so earlier events appear first in
+ * any agenda-style rendering.
+ */
+export async function getCalendarPosts(
+  workspaceId: string,
+): Promise<KanbanPost[]> {
+  return prisma.post.findMany({
+    where: {
+      workspaceId,
+      scheduledFor: { not: null },
+    },
+    select: {
+      id: true,
+      title: true,
+      platform: true,
+      status: true,
+      scheduledFor: true,
+      createdAt: true,
+      media: {
+        select: { id: true, url: true },
+        take: 1,
+      },
+    },
+    orderBy: {
+      scheduledFor: "asc",
+    },
+  });
+}

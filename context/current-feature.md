@@ -1,16 +1,20 @@
-# Current Feature
+# Calendar View
 
 ## Status
 
-Not Started
+In Progress
 
 ## Goals
 
-<!-- Add feature goals here -->
-
-## Notes
-
-<!-- Add feature notes here -->
+- Install missing type dependency for react-big-calendar
+- Create dedicated calendar query fetching only posts with scheduled dates
+- Implement the calendar page as a Server Component
+- Build CalendarView client component with localizer, drag-and-drop HOC, event styling, and view switching
+- Override react-big-calendar's default CSS to match the violet theme
+- Implement onSelectSlot for click-to-create (navigate to new post with pre-filled date)
+- Implement onEventDrop for drag-to-reschedule using useOptimistic
+- Implement onSelectEvent for click-to-edit events
+- Update NewPostPage and PostForm to accept pre-filled scheduledFor from calendar
 
 ## History
 
