@@ -55,17 +55,21 @@ const DEFAULT_CONTENT: TipTapContent = {
 interface PostFormProps {
   post?: Post & { media: Media[] };
   defaultStatus?: CreatePostInput["status"]; // ← add this
+  defaultScheduledFor?: string;
 }
 
-export function PostForm({ post, defaultStatus = "DRAFT" }: PostFormProps) {
+export function PostForm({
+  post,
+  defaultStatus = "DRAFT",
+  defaultScheduledFor,
+}: PostFormProps) {
   const router = useRouter();
   const isEditing = !!post;
   const { uploads, isUploading, uploadFiles, removeUpload } = useMediaUpload();
 
-  // Initialize with existing post data in edit mode
-  const defaultScheduledFor = post?.scheduledFor
+  const defaultScheduledForValue = post?.scheduledFor
     ? format(new Date(post.scheduledFor), "yyyy-MM-dd'T'HH:mm")
-    : "";
+    : (defaultScheduledFor ?? "");
 
   const form = useForm<CreatePostInput>({
     resolver: standardSchemaResolver(createPostSchema),
@@ -73,11 +77,12 @@ export function PostForm({ post, defaultStatus = "DRAFT" }: PostFormProps) {
       title: post?.title ?? "",
       content: (post?.content as TipTapContent | undefined) ?? DEFAULT_CONTENT,
       platform: (post?.platform as CreatePostInput["platform"]) ?? "INSTAGRAM",
-      status: (post?.status as CreatePostInput["status"]) ?? defaultStatus, // ← use prop
-      scheduledFor: defaultScheduledFor || undefined,
+      status: (post?.status as CreatePostInput["status"]) ?? defaultStatus,
+      scheduledFor: defaultScheduledForValue || undefined,
     },
     mode: "onBlur",
   });
+
   const {
     register,
     handleSubmit,
