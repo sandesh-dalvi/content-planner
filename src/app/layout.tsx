@@ -21,19 +21,19 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider>
-      <html
-        lang="en"
-        suppressHydrationWarning
-        className={cn("h-full", "antialiased", "font-sans", inter.variable)}
-      >
-        <body className="min-h-full flex flex-col">
+    <html
+      lang="en"
+      suppressHydrationWarning
+      className={cn("h-full", "antialiased", "font-sans", inter.variable)}
+    >
+      <body className="min-h-full flex flex-col">
+        <ClerkProvider>
           <Providers>
             {children}
             <Toaster richColors position="top-right" />
           </Providers>
-        </body>
-      </html>
-    </ClerkProvider>
+        </ClerkProvider>
+      </body>
+    </html>
   );
 }

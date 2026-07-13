@@ -48,33 +48,6 @@ export async function getPostById(postId: string, workspaceId: string) {
 }
 
 /**
- * Get dashboard stats for a workspace.
- * Uses count aggregations — no full rows returned.
- */
-export async function getPostStats(workspaceId: string) {
-  const [total, byStatus, byPlatform] = await Promise.all([
-    // Total post count
-    prisma.post.count({ where: { workspaceId } }),
-
-    // Count per status (for status breakdown chart)
-    prisma.post.groupBy({
-      by: ["status"],
-      where: { workspaceId },
-      _count: { status: true },
-    }),
-
-    // Count per platform (for platform donut chart)
-    prisma.post.groupBy({
-      by: ["platform"],
-      where: { workspaceId },
-      _count: { platform: true },
-    }),
-  ]);
-
-  return { total, byStatus, byPlatform };
-}
-
-/**
  * Fetches all posts for the Kanban board.
  * Selects only the fields the board renders — excludes
  * the content JSONB column since cards never show it.
@@ -98,4 +71,48 @@ export async function getKanbanPosts(
     },
     orderBy: { createdAt: "desc" },
   });
+}
+
+/**
+ * Returns aggregated stats for the analytics dashboard.
+ * Uses Promise.all so all three queries run in parallel.
+ * Avoids fetching any post content or media — pure counts.
+ */
+export async function getPostStats(workspaceId: string) {
+  const [total, byStatus, byPlatform, scheduled, published] = await Promise.all(
+    [
+      // total posts
+      prisma.post.count({
+        where: { workspaceId },
+      }),
+
+      // count per status
+      prisma.post.groupBy({
+        by: ["status"],
+        where: { workspaceId },
+        _count: { status: true },
+        orderBy: { status: "desc" },
+      }),
+
+      // count per platform
+      prisma.post.groupBy({
+        by: ["platform"],
+        where: { workspaceId },
+        _count: { platform: true },
+        orderBy: { platform: "asc" },
+      }),
+
+      // Scheduled posts
+      prisma.post.count({
+        where: { workspaceId, status: "SCHEDULED" },
+      }),
+
+      // Published posts
+      prisma.post.count({
+        where: { workspaceId, status: "PUBLISHED" },
+      }),
+    ],
+  );
+
+  return { total, byStatus, byPlatform, scheduled, published };
 }
