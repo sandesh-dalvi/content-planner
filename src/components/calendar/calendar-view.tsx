@@ -22,7 +22,6 @@ import {
   type View,
 } from "react-big-calendar";
 import withDragAndDrop, {
-  type withDragAndDropProps,
   type EventInteractionArgs,
 } from "react-big-calendar/lib/addons/dragAndDrop";
 import { toast } from "sonner";
@@ -76,7 +75,7 @@ interface RescheduleAction {
 
 export function CalendarView({ initialPosts }: CalendarViewProps) {
   const router = useRouter();
-  const [_, startTransition] = useTransition();
+  const [, startTransition] = useTransition();
   const [currentView, setCurrentView] = useState<View>(Views.MONTH);
   const [currentDate, setCurrentDate] = useState(new Date());
 

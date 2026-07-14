@@ -44,7 +44,7 @@ export function KanbanBoard({ initialPosts }: KanbanBoardProps) {
   const [activePost, setActivePost] = useState<KanbanPost | null>(null);
 
   // useTransition wraps the Server Action call so React can mark it as non-urgent and batch it with the optimistic update
-  const [_, startTransition] = useTransition();
+  const [, startTransition] = useTransition();
 
   // Sensors — PointerSensor handles mouse AND touch.
   // activationConstraint: distance 8px prevents firing on a click.
@@ -122,13 +122,13 @@ export function KanbanBoard({ initialPosts }: KanbanBoardProps) {
       // Screen reader announcements — built-in accessibility
       accessibility={{
         announcements: {
-          onDragStart: ({ active }) =>
+          onDragStart: () =>
             `Picked up post. Press Space to drop or Escape to cancel.`,
-          onDragOver: ({ active, over }) =>
+          onDragOver: ({ over }) =>
             over
               ? `Post over ${over.id.toString().replace("_", " ")} column.`
               : "Post is not over a column.",
-          onDragEnd: ({ active, over }) =>
+          onDragEnd: ({ over }) =>
             over
               ? `Post moved to ${over.id.toString().replace("_", " ")}.`
               : "Post dropped with no changes.",

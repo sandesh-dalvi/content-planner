@@ -53,7 +53,7 @@ export function DeletePostButton({ postId, postTitle }: DeletePostButtonProps) {
         <DialogHeader>
           <DialogTitle>Delete post?</DialogTitle>
           <DialogDescription>
-            <strong>"{postTitle}"</strong> will be permanently deleted. This
+            <strong>&ldquo;{postTitle}&rdquo;</strong> will be permanently deleted. This
             cannot be undone.
           </DialogDescription>
         </DialogHeader>

@@ -1,7 +1,6 @@
 import type {
   Post,
   Media,
-  Platform,
   PostStatus,
 } from "@/generated/prisma/client";
 

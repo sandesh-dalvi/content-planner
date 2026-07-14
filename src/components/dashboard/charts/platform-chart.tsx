@@ -6,7 +6,6 @@ import {
   Legend,
   Pie,
   PieChart,
-  Sector,
   Tooltip,
   type TooltipContentProps,
 } from "recharts";

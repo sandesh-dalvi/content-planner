@@ -3,7 +3,6 @@ import { notFound } from "next/navigation";
 
 import { requireAuth } from "@/lib/auth";
 import { getWorkspaceByUserId } from "@/db/queries/workspace.queries";
-import { prisma } from "@/lib/prisma";
 import { getPostStats } from "@/db/queries/posts.queries";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
