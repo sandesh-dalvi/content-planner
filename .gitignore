@@ -41,3 +41,18 @@ yarn-error.log*
 next-env.d.ts
 
 src/generated
+
+
+# =========================
+# AI & Editor Directories
+# =========================
+# Ignore caches, state, and logs
+.antigravity
+.agents
+.codex
+.cursor
+
+# Whitelist team-shared AI agents and rules
+!.antigravity/agents/
+!.agents/skills/
+!.cursor/rules/

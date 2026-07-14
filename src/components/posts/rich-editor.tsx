@@ -100,9 +100,11 @@ export function RichEditor({
           type="button"
           variant="ghost"
           size="icon"
-          className="h-7 w-7"
+          className={cn(
+            "h-7 w-7",
+            editor.isActive("bold") && "bg-accent text-accent-foreground"
+          )}
           onClick={() => editor.chain().focus().toggleBold().run()}
-          data-active={editor.isActive("bold")}
           aria-label="Bold"
         >
           <Bold className="h-3.5 w-3.5" />
@@ -112,9 +114,11 @@ export function RichEditor({
           type="button"
           variant="ghost"
           size="icon"
-          className="h-7 w-7"
+          className={cn(
+            "h-7 w-7",
+            editor.isActive("italic") && "bg-accent text-accent-foreground"
+          )}
           onClick={() => editor.chain().focus().toggleItalic().run()}
-          data-active={editor.isActive("italic")}
           aria-label="Italic"
         >
           <Italic className="h-3.5 w-3.5" />
@@ -126,9 +130,11 @@ export function RichEditor({
           type="button"
           variant="ghost"
           size="icon"
-          className="h-7 w-7"
+          className={cn(
+            "h-7 w-7",
+            editor.isActive("bulletList") && "bg-accent text-accent-foreground"
+          )}
           onClick={() => editor.chain().focus().toggleBulletList().run()}
-          data-active={editor.isActive("bulletList")}
           aria-label="Bullet list"
         >
           <List className="h-3.5 w-3.5" />
@@ -138,9 +144,11 @@ export function RichEditor({
           type="button"
           variant="ghost"
           size="icon"
-          className="h-7 w-7"
+          className={cn(
+            "h-7 w-7",
+            editor.isActive("orderedList") && "bg-accent text-accent-foreground"
+          )}
           onClick={() => editor.chain().focus().toggleOrderedList().run()}
-          data-active={editor.isActive("orderedList")}
           aria-label="Ordered list"
         >
           <ListOrdered className="h-3.5 w-3.5" />
@@ -152,13 +160,15 @@ export function RichEditor({
           type="button"
           variant="ghost"
           size="icon"
-          className="h-7 w-7"
+          className={cn(
+            "h-7 w-7",
+            editor.isActive("link") && "bg-accent text-accent-foreground"
+          )}
           onClick={() => {
             const url = window.prompt("Enter link URL:");
             if (!url) return;
             editor.chain().focus().setLink({ href: url }).run();
           }}
-          data-active={editor.isActive("link")}
           aria-label="Add link"
         >
           <Link2 className="h-3.5 w-3.5" />

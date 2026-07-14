@@ -106,6 +106,12 @@ export function PostForm({
     const payload: CreatePostInput = {
       ...data,
       content: data.content,
+      media: uploads.map((u) => ({
+        url: u.url,
+        filename: u.filename,
+        mimeType: u.mimeType,
+        size: u.size,
+      })),
     };
 
     const result = isEditing

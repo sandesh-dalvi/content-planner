@@ -69,6 +69,47 @@ describe("post actions", () => {
       expect(mocks.revalidatePath).toHaveBeenCalledWith("/posts");
     });
 
+    it("creates a post with media and stores media in database", async () => {
+      mocks.create.mockResolvedValue({ id: "post-1" });
+
+      const postWithMedia = {
+        ...validPost,
+        media: [
+          {
+            url: "https://example.com/image.png",
+            filename: "image.png",
+            mimeType: "image/png",
+            size: 1024,
+          },
+        ],
+      };
+
+      await expect(createPost(postWithMedia)).resolves.toEqual({
+        success: true,
+        postId: "post-1",
+      });
+
+      expect(mocks.create).toHaveBeenCalledWith({
+        data: expect.objectContaining({
+          workspaceId: "workspace-1",
+          userId: "user-1",
+          title: "Launch post",
+          media: {
+            createMany: {
+              data: [
+                expect.objectContaining({
+                  url: "https://example.com/image.png",
+                  filename: "image.png",
+                  mimeType: "image/png",
+                  size: 1024,
+                }),
+              ],
+            },
+          },
+        }),
+      });
+    });
+
     it("returns validation errors without writing to the database", async () => {
       const result = await createPost({ ...validPost, title: "" });
 
@@ -101,6 +142,45 @@ describe("post actions", () => {
       expect(mocks.update).toHaveBeenCalledWith({
         where: { id: "post-1", workspaceId: "workspace-1" },
         data: expect.objectContaining({ title: "Updated title" }),
+      });
+    });
+
+    it("updates post media when media is provided", async () => {
+      mocks.findUnique.mockResolvedValue({ id: "post-1" });
+
+      const updateData = {
+        title: "Updated title",
+        media: [
+          {
+            url: "https://example.com/new-image.png",
+            filename: "new-image.png",
+            mimeType: "image/png",
+            size: 2048,
+          },
+        ],
+      };
+
+      await expect(updatePost("post-1", updateData)).resolves.toEqual({
+        success: true,
+      });
+
+      expect(mocks.update).toHaveBeenCalledWith({
+        where: { id: "post-1", workspaceId: "workspace-1" },
+        data: expect.objectContaining({
+          title: "Updated title",
+          media: {
+            createMany: {
+              data: [
+                expect.objectContaining({
+                  url: "https://example.com/new-image.png",
+                  filename: "new-image.png",
+                  mimeType: "image/png",
+                  size: 2048,
+                }),
+              ],
+            },
+          },
+        }),
       });
     });
 

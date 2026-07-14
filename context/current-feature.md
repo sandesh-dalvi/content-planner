@@ -1,6 +1,4 @@
-# Current Feature
-
-Dashboard Analytics
+# Current Feature: Fix Media Saving and Tiptap Bullet/Number Lists
 
 ## Status
 
@@ -8,22 +6,15 @@ In Progress
 
 ## Goals
 
-- Build a dashboard page with stats cards showing key metrics
-- Implement Recharts v3 charts with responsive prop for React 19
-- Create posts by platform donut chart (PieChart)
-- Create posts by status bar chart (BarChart)
-- Fetch analytics data via getPostStats query
-- All components follow Server Component pattern
+- Ensure uploaded media metadata is saved to the `Media` table in the database and linked to the corresponding `Post`
+- Resolve visual issues with Tiptap editor and viewer so that bulleted lists and numbered lists display bullets and numbers properly
+- Ensure Tailwind v4 styles correctly support list formatting within the editor and post viewer
 
 ## Notes
 
-From spec:
-- Recharts v3 API decisions and the responsive prop fix for React 19
-- The analytics data query (getPostStats from Section 2, extended)
-- Stats cards as a Server Component
-- Posts by platform — donut chart (Recharts PieChart)
-- Posts by status — bar chart (Recharts BarChart)
-- The complete dashboard page composing everything
+- Inline description: media never saved to database and tiptap visual issues like bullets/numbers not showing
+- Media schema fields: id, postId, url, filename, mimeType, size, width, height, uploadedAt
+- Tiptap styling needs standard list styles (`list-disc`, `list-decimal`, margin, padding) inside the editor container and read-only renderers
 
 ## History
 

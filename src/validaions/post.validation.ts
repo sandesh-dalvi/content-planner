@@ -27,6 +27,13 @@ export const PLATFORM_LIMITS = {
   YOUTUBE: 5000,
 } as const;
 
+export const mediaInputSchema = z.object({
+  url: z.string().url(),
+  filename: z.string(),
+  mimeType: z.string(),
+  size: z.number(),
+});
+
 export const createPostSchema = z.object({
   title: z
     .string()
@@ -48,6 +55,8 @@ export const createPostSchema = z.object({
   status: PostStatusEnum,
 
   scheduledFor: z.string().nullish(),
+
+  media: z.array(mediaInputSchema).optional(),
 });
 
 export const updatePostSchema = createPostSchema.partial();
@@ -60,3 +69,4 @@ export const updateStatusSchema = z.object({
 export type CreatePostInput = z.infer<typeof createPostSchema>;
 export type UpdatePostInput = z.infer<typeof updatePostSchema>;
 export type UpdateStatusInput = z.infer<typeof updateStatusSchema>;
+

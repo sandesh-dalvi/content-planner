@@ -56,6 +56,19 @@ export async function createPost(input: CreatePostInput) {
       platform: data.platform,
       status: data.status,
       scheduledFor: data.scheduledFor ? new Date(data.scheduledFor) : null,
+      media: data.media
+        ? {
+            createMany: {
+              data: data.media.map((m) => ({
+                url: m.url,
+                filename: m.filename,
+                mimeType: m.mimeType,
+                size: m.size,
+                uploadedAt: new Date(),
+              })),
+            },
+          }
+        : undefined,
     },
   });
 
@@ -104,6 +117,19 @@ export async function updatePost(postId: string, input: UpdatePostInput) {
       }),
       ...(data.scheduledFor !== undefined && {
         scheduledFor: data.scheduledFor ? new Date(data.scheduledFor) : null,
+      }),
+      ...(data.media !== undefined && {
+        media: {
+          createMany: {
+            data: data.media.map((m) => ({
+              url: m.url,
+              filename: m.filename,
+              mimeType: m.mimeType,
+              size: m.size,
+              uploadedAt: new Date(),
+            })),
+          },
+        },
       }),
       updatedAt: new Date(),
     },
