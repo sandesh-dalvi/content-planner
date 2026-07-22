@@ -1,8 +1,12 @@
-export default function Home() {
-  return (
-    <main className=" flex min-h-screen flex-col items-center justify-center">
-      <h1 className=" text-4xl font-bold">Content Planner</h1>
-      <p className=" mt-4 text-gray-600">Coming Soon...</p>
-    </main>
-  );
+import type { Metadata } from "next";
+import { LandingPage } from "@/components/landing/landing-page";
+
+export const metadata: Metadata = {
+  title: "Content Planner — Plan, Schedule, Publish",
+  description:
+    "A lightweight content planning tool for creators and teams. Kanban board, calendar view, and analytics — all in one place.",
+};
+
+export default function HomePage() {
+  return <LandingPage />;
 }
